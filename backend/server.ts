@@ -1,3 +1,4 @@
+import { LoggerService } from './common/logger-service';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import _ = require('lodash');
@@ -5,28 +6,39 @@ import http = require('http');
 import { AppConsts } from './app-consts';
 
 class ServerApp{  
-  private readonly app = express() 
+  private readonly app = express();
   private server;
 
-  constructor(private port:number){
+  constructor(private port:number,
+              private logger:LoggerService){
+    this.validatePort(port);
+  }
+
+  private validatePort(port:number):void{
+    this.logger.debug(`Validating port: ${port}`);
+    if(!port || port <= 0){
+      throw new Error('Invalid port number');
+    }
   }
  
-  init(){
+  public init():void{
+    this.logger.info('Starting server...');
     this.app.use(bodyParser.json());
     this.app.get('/api/peopleapp', (req,res)=>{
         res.json({"res":"hi"});
     })   
  
-    this.server = http.createServer(this.app)
+    this.server = http.createServer(this.app);
 
     this.server.listen(this.port,()=>{
-      console.log(`Server is up on port: ${this.port}`)
+      this.logger.info(`Server is up on port: ${this.port}`);
     })
  
   }
 }
  
-let serverApp:ServerApp = new ServerApp(AppConsts.SERVER_PORT) 
+const logger:LoggerService = new LoggerService();
+let serverApp:ServerApp = new ServerApp(AppConsts.SERVER_PORT, logger);
 serverApp.init();
 
 
