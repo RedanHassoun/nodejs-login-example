@@ -1,12 +1,11 @@
 import { LoggerService } from './common/logger-service';
-import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import _ = require('lodash');
 import http = require('http');
 import { AppConsts } from './app-consts';
+import * as express from 'express';
 
 class ServerApp{  
-  private readonly app = express();
+  private readonly app:any = express();
   private server;
 
   constructor(private port:number,
