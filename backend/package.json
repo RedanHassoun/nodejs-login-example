@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc app\\app-consts.ts && tsc app\\server.ts && node app\\server.js",
-    "compile": "tsc app\\app-consts.ts && tsc app\\server.ts"
+    "start": "npm run compile && node lib\\server.js",
+    "compile": "tsc app\\app-consts.ts --outDir ./lib && tsc app\\server.ts --outDir ./lib"
   },
   "author": "Redan",
   "license": "ISC",
