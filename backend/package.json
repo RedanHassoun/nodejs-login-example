@@ -21,5 +21,8 @@
     "sqlite3": "^4.0.6",
     "uuid": "^3.3.2",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "tslint-config-airbnb": "5.11.1"
   }
 }
