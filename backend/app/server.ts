@@ -3,26 +3,23 @@ import * as bodyParser from 'body-parser';
 import http = require('http');
 import { AppConsts } from './app-consts';
 import * as express from 'express';
+import { AppUtil } from './common/app-util';
 
 class ServerApp{  
   private readonly app:any = express();
-  private server;
+  private server: http.Server;
 
   constructor(private port:number,
               private logger:LoggerService){
-    this.validatePort(port);
-  }
-
-  private validatePort(port:number):void{
-    this.logger.debug(`Validating port: ${port}`);
-    if(!port || port <= 0){
-      throw new Error('Invalid port number');
-    }
   }
  
   public init():void{
+    AppUtil.validatePort(this.port);
+
     this.logger.info('Starting server...');
+
     this.app.use(bodyParser.json());
+
     this.app.get('/api/peopleapp', (req,res)=>{
         res.json({"res":"hi"});
     })   
@@ -32,7 +29,6 @@ class ServerApp{
     this.server.listen(this.port,()=>{
       this.logger.info(`Server is up on port: ${this.port}`);
     })
- 
   }
 }
  
